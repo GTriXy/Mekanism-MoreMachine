@@ -14,6 +14,8 @@ Place the snapshot at `libs/Mekanism-26.2-10.8.0.homebaked-all.jar`, or pass an 
 
 The tested dependency includes local fixes from the 26.2 Mekanism port. A fresh checkout and hosted CI need this dependency supplied separately; the branch is not yet independently reproducible from a published Maven coordinate. Do not replace it with a 26.1.2 JAR.
 
+Java compilation runs `verifyMekanismDependency` first so a missing local snapshot produces an explicit setup error, rather than hundreds of missing Mekanism classes. This check does not download the dependency. For GitHub Actions, supply the matching snapshot in a setup step before Gradle runs, using an explicitly selected artifact or published dependency. Re-running the workflow without providing it cannot succeed. Keep the binary outside Git and outside the MoreMachine release JAR.
+
 ```sh
 ./gradlew spotlessCheck build
 ./gradlew runGameTestServer

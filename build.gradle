@@ -33,9 +33,25 @@ repositories {
     maven { url = 'https://maven.blamejared.com' }
 }
 
+def mekanismJarFile = file(providers.gradleProperty('mekanismJar').getOrElse('libs/Mekanism-26.2-10.8.0.homebaked-all.jar'))
+
+var verifyMekanismDependency = tasks.register('verifyMekanismDependency') {
+    group = 'verification'
+    description = 'Check that the separately supplied Mekanism 26.2 snapshot exists.'
+    inputs.property('mekanismJarPath', mekanismJarFile.absolutePath)
+    doLast {
+        if (!mekanismJarFile.isFile()) {
+            throw new GradleException('Missing Mekanism 26.2 build dependency: ' + mekanismJarFile.absolutePath +
+                    '. Supply the matching snapshot at libs/Mekanism-26.2-10.8.0.homebaked-all.jar, or use ' +
+                    '-PmekanismJar=/path/to/the/snapshot.jar. GitHub Actions needs this dependency supplied explicitly; ' +
+                    'it is not included in the repository. See docs/BUILDING-26.2.md.')
+        }
+    }
+}
+
 dependencies {
     // Local 26.2 snapshot, kept outside source control and never embedded in the release JAR.
-    implementation files(providers.gradleProperty('mekanismJar').getOrElse('libs/Mekanism-26.2-10.8.0.homebaked-all.jar'))
+    implementation files(mekanismJarFile)
     compileOnly 'maven.modrinth:distanthorizons:3.2.0-b-26.1.2'
     compileOnly 'org.jetbrains:annotations:26.1.0'
     compileOnly 'org.projectlombok:lombok:1.18.46'
@@ -91,7 +107,10 @@ var generateModMetadata = tasks.register('generateModMetadata', ProcessResources
 sourceSets.main.resources.srcDir generateModMetadata
 neoForge.ideSyncTask generateModMetadata
 
-tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
+tasks.withType(JavaCompile).configureEach {
+    dependsOn verifyMekanismDependency
+    options.encoding = 'UTF-8'
+}
 tasks.named('jar') {
     from('LICENSE')
     exclude '**/.cache/**', '**/*.bbmodel', '**/*.blend', '**/*.psd'
