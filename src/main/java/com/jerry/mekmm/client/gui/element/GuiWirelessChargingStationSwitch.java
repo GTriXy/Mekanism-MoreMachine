@@ -1,11 +1,13 @@
 package com.jerry.mekmm.client.gui.element;
 
+import com.jerry.mekmm.client.LegacyTextures;
+import com.jerry.mekmm.client.LegacyTextures.ResourceType;
+
 import mekanism.client.gui.IGuiWrapper;
 import mekanism.client.gui.element.GuiTexturedElement;
 import mekanism.common.MekanismLang;
 import mekanism.common.registries.MekanismSounds;
 import mekanism.common.util.MekanismUtils;
-import mekanism.common.util.MekanismUtils.ResourceType;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
@@ -18,7 +20,7 @@ import java.util.function.BooleanSupplier;
 
 public class GuiWirelessChargingStationSwitch extends GuiTexturedElement {
 
-    public static final Identifier SWITCH = MekanismUtils.getResource(ResourceType.GUI, "switch/switch.png");
+    public static final Identifier SWITCH = LegacyTextures.getResource(ResourceType.GUI, "switch/switch.png");
     public static final int BUTTON_SIZE_X = 15, BUTTON_SIZE_Y = 8;
 
     private final SwitchType type;
@@ -38,7 +40,6 @@ public class GuiWirelessChargingStationSwitch extends GuiTexturedElement {
 
     @Override
     public void drawBackground(@NotNull GuiGraphicsExtractor GuiGraphicsExtractor, int mouseX, int mouseY, float partialTicks) {
-        super.drawBackground(GuiGraphicsExtractor, mouseX, mouseY, partialTicks);
         boolean state = stateSupplier.getAsBoolean();
         GuiGraphicsExtractor.blit(RenderPipelines.GUI_TEXTURED, getResource(), relativeX + type.switchX, relativeY + type.switchY, 0, state ? 0 : BUTTON_SIZE_Y, BUTTON_SIZE_X, BUTTON_SIZE_Y, BUTTON_SIZE_X, BUTTON_SIZE_Y * 2);
         GuiGraphicsExtractor.blit(RenderPipelines.GUI_TEXTURED, getResource(), relativeX + type.switchX, relativeY + type.switchY + BUTTON_SIZE_Y + 1, 0, state ? BUTTON_SIZE_Y : 0, BUTTON_SIZE_X, BUTTON_SIZE_Y, BUTTON_SIZE_X, BUTTON_SIZE_Y * 2);

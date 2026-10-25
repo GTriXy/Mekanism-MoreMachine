@@ -1,5 +1,6 @@
 package com.jerry.mekmm.client.gui;
 
+import com.jerry.mekmm.client.LegacyTextures;
 import com.jerry.mekmm.client.gui.element.GuiWirelessChargingStationSwitch;
 import com.jerry.mekmm.client.gui.element.GuiWirelessChargingStationSwitch.SwitchType;
 import com.jerry.mekmm.common.MoreMachineLang;
@@ -32,9 +33,9 @@ import java.util.List;
 
 public class GuiWirelessChargingStation extends GuiConfigurableTile<TileEntityWirelessChargingStation, MekanismTileContainer<TileEntityWirelessChargingStation>> {
 
-    private static final Identifier EQUIPS = MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "switch/equips.png");
-    private static final Identifier INVENTORY = MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "switch/inventory.png");
-    private static final Identifier CURIOS = MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "switch/curios.png");
+    private static final Identifier EQUIPS = LegacyTextures.getResource(LegacyTextures.ResourceType.GUI, "switch/equips.png");
+    private static final Identifier INVENTORY = LegacyTextures.getResource(LegacyTextures.ResourceType.GUI, "switch/inventory.png");
+    private static final Identifier CURIOS = LegacyTextures.getResource(LegacyTextures.ResourceType.GUI, "switch/curios.png");
 
     public GuiWirelessChargingStation(MekanismTileContainer<TileEntityWirelessChargingStation> container, Inventory inv, Component title) {
         super(container, inv, title);
